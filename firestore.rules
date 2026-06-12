@@ -1,0 +1,90 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    
+    function isSignedIn() { 
+      return request.auth != null; 
+    }
+    
+    function incoming() { 
+      return request.resource.data; 
+    }
+    
+    function existing() { 
+      return resource.data; 
+    }
+
+    // Validate a saved game record (Kifu)
+    function isValidKifu(data) {
+      return data.keys().hasAll(['id', 'title', 'ownerUid', 'senteName', 'goteName', 'moves', 'createdAt'])
+        && data.keys().size() >= 7
+        && data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() <= 100
+        && data.ownerUid == request.auth.uid
+        && data.senteName is string && data.senteName.size() <= 50
+        && data.goteName is string && data.goteName.size() <= 50
+        && data.moves is string && data.moves.size() <= 50000
+        && data.createdAt == request.time;
+    }
+
+    // Validate a Match document on create or update
+    function isValidMatch(data) {
+      return data.keys().hasAll(['id', 'status', 'board', 'turn', 'senteHand', 'goteHand', 'senteCharge', 'goteCharge', 'moves', 'createdAt', 'updatedAt'])
+        && data.keys().size() >= 11
+        && data.id is string && data.id.size() <= 128
+        && data.status is string && (data.status == 'waiting' || data.status == 'playing' || data.status == 'finished')
+        && data.board is string && data.board.size() <= 10000
+        && data.turn is string && (data.turn == '先手' || data.turn == '後手')
+        && data.senteHand is string && data.senteHand.size() <= 2000
+        && data.goteHand is string && data.goteHand.size() <= 2000
+        && data.senteCharge is int && data.senteCharge >= 0 && data.senteCharge <= 100
+        && data.goteCharge is int && data.goteCharge >= 0 && data.goteCharge <= 100
+        && data.moves is string && data.moves.size() <= 50000;
+    }
+
+    // Saved Game Records (Kifus)
+    match /kifus/{kifuId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+      allow create: if isSignedIn() && isValidId(kifuId) && isValidKifu(incoming());
+      allow update: if false; // Kifus are immutable once written!
+      allow delete: if isSignedIn() && resource.data.ownerUid == request.auth.uid;
+    }
+
+    // Match Rooms
+    match /matches/{matchId} {
+      allow get: if isSignedIn();
+      allow list: if isSignedIn(); // Allow lobby list queries
+      allow create: if isSignedIn() && isValidId(matchId) && isValidMatch(incoming()) 
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && incoming().status == 'waiting'
+        && (incoming().senteUid == request.auth.uid || incoming().goteUid == request.auth.uid);
+
+      allow update: if isSignedIn() && isValidId(matchId) && isValidMatch(incoming())
+        && incoming().updatedAt == request.time
+        && (
+          // Action 1: Join match (player2 enters the lobby)
+          (existing().status == 'waiting' && incoming().status == 'playing'
+           && incoming().diff(existing()).affectedKeys().hasOnly(['goteUid', 'goteName', 'senteUid', 'senteName', 'status', 'updatedAt']))
+          ||
+          // Action 2: Perform Shogi play (regular move, King Hack super move, or resignation)
+          (existing().status == 'playing'
+           && (existing().senteUid == request.auth.uid || existing().goteUid == request.auth.uid)
+           && incoming().diff(existing()).affectedKeys().hasOnly(['board', 'turn', 'senteHand', 'goteHand', 'senteCharge', 'goteCharge', 'moves', 'lastMove', 'updatedAt', 'status', 'winner']))
+        );
+      
+      allow delete: if false;
+    }
+  }
+}

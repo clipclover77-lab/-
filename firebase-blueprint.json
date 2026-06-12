@@ -1,0 +1,56 @@
+{
+  "entities": {
+    "Match": {
+      "title": "Match",
+      "description": "An online Shogi match room",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "type": "string", "enum": ["waiting", "playing", "finished"] },
+        "turn": { "type": "string", "enum": ["先手", "後手"] },
+        "senteUid": { "type": "string" },
+        "senteName": { "type": "string" },
+        "goteUid": { "type": "string" },
+        "goteName": { "type": "string" },
+        "board": { "type": "string", "description": "Serialized board state JSON" },
+        "senteHand": { "type": "string", "description": "Serialized Sente hand list JSON" },
+        "goteHand": { "type": "string", "description": "Serialized Gote hand list JSON" },
+        "senteCharge": { "type": "integer" },
+        "goteCharge": { "type": "integer" },
+        "winner": { "type": "string", "description": "Winner of the match: 先手 or 後手" },
+        "lastMove": { "type": "string", "description": "Serialized last move details" },
+        "moves": { "type": "string", "description": "Serialized move list JSON for kifu" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "status", "turn", "board", "senteHand", "goteHand", "senteCharge", "goteCharge", "moves", "createdAt", "updatedAt"]
+    },
+    "Kifu": {
+      "title": "Kifu",
+      "description": "Saved game record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "ownerUid": { "type": "string" },
+        "ownerName": { "type": "string" },
+        "senteName": { "type": "string" },
+        "goteName": { "type": "string" },
+        "moves": { "type": "string", "description": "Serialized move list JSON" },
+        "winner": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "ownerUid", "senteName", "goteName", "moves", "createdAt"]
+    }
+  },
+  "firestore": {
+    "matches/{matchId}": {
+      "schema": "Match",
+      "description": "Collection of active match rooms"
+    },
+    "kifus/{kifuId}": {
+      "schema": "Kifu",
+      "description": "Collection of saved Shogi kifus"
+    }
+  }
+}
