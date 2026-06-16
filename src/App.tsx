@@ -606,7 +606,7 @@ export default function App() {
     setHackedFlashTiles(victims);
     playKingHackSound();
     
-    setGlitchMessage(`SYSTEM WARNING: ${actor === '先手' ? '先手' : '後手'}の【王将ハッキング】発動！ 範囲内の敵 ${victims.length} 駒が洗脳ハックされました！`);
+    setGlitchMessage(`SYSTEM WARNING: ${actor === '先手' ? '先手' : '後手'}の【全権掌握（システム・ジャック）】発動！ 範囲内の敵 ${victims.length} 駒が洗脳ハックされました！`);
     
     // Clear flash FX after 1.5s
     setTimeout(() => {
@@ -931,8 +931,8 @@ export default function App() {
             <Sword className="w-5 h-5 rotate-45 animate-pulse" />
           </div>
           <div>
-            <h1 className="text-base md:text-xl font-bold tracking-tight leading-none bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#FF4500] bg-clip-text text-transparent flex items-center gap-1.5">
-              必殺ハック将棋
+            <h1 className="text-base md:text-xl font-extrabold tracking-widest leading-none bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#FF4500] bg-clip-text text-transparent flex items-center gap-1.5">
+              電脳将棋 CODE:HACK
             </h1>
             <p className="text-[10px] text-white/40 font-mono mt-0.5">
               SUPER SHOGI ULTIMATE HACK ENGINE
@@ -992,39 +992,106 @@ export default function App() {
 
             {/* If no match is selected: match selection lobby */}
             {!gameMode ? (
-              <div id="lobby_scaffholding" className="flex flex-col items-center text-center gap-6 max-w-xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                id="lobby_scaffholding"
+                className="flex flex-col items-center text-center gap-8 max-w-2xl mx-auto w-full px-4"
+              >
                 
-                {/* Visual Intro banner */}
-                <div className="p-8 rounded-3xl border border-white/5 flex flex-col items-center glass-panel shadow-2xl relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF4500] via-[#D4AF37] to-[#FF4500]" />
-                  <div className="w-16 h-16 bg-white/5 p-2 text-white rounded-2xl flex items-center justify-center mb-4 border border-white/10 shadow-inner">
-                    <Zap className="w-9 h-9 text-[#FF4500] animate-pulse" />
+                {/* CYBERPUNK CHRONO TITLE CARD */}
+                <div className="w-full p-8 md:p-10 rounded-[2.5rem] border border-white/10 flex flex-col items-center bg-[#111115]/80 shadow-[0_0_60px_rgba(255,69,0,0.15)] relative overflow-hidden backdrop-blur-md">
+                  
+                  {/* Glowing header accents */}
+                  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#FF4500] via-[#D4AF37] to-[#FF4500]" />
+                  
+                  {/* Security Clearance Tag */}
+                  <div className="absolute top-4 right-6 flex items-center gap-1.5 text-[8.5px] font-mono font-black tracking-widest text-[#FF4500]/70 select-none animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4500]" />
+                    SECURE NODE COMPROMISED
                   </div>
-                  <h2 className="text-2xl font-black mb-3 text-white tracking-wide">必殺ハック将棋</h2>
-                  <p className="text-xs text-white/70 leading-relaxed max-w-md">
-                    相手の駒を奪うとパワーが<span className="text-[#FF4500] font-bold">20%蓄積</span>し、100%に達すると玉将の特殊必殺技<span className="text-[#D4AF37] font-bold">【王将ハッキング】</span>を発動できます。
-                    王の周囲2マスの範囲にいる「全ての敵の駒」を一瞬で洗脳し、自分の駒に書き換えるスリリングな超次元将棋！
-                  </p>
+
+                  <div className="absolute top-4 left-6 flex items-center gap-1.5 text-[8.5px] font-mono font-semibold tracking-widest text-white/35 select-none">
+                    PORT: 3000 / HOST: ACTIVE
+                  </div>
+
+                  {/* Version tag */}
+                  <div className="mt-4 mb-2 py-0.5 px-3 rounded-full bg-white/[0.04] border border-white/10 text-[9px] font-mono font-extrabold text-[#D4AF37] tracking-[0.2em] uppercase shadow-inner">
+                    SYSTEM SUITE v2.2.4
+                  </div>
+
+                  {/* Ultimate Neo Cyber Logo Grid */}
+                  <div className="relative my-4 flex flex-col items-center select-none">
+                    <span className="text-white/40 text-[10px] font-mono font-black uppercase tracking-[0.45em] mb-1.5">
+                      CYBERNETIC SHOGI MATRIX
+                    </span>
+                    
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-widest uppercase relative font-sans">
+                      電脳将棋
+                    </h2>
+                    
+                    <div className="mt-3 relative">
+                      {/* Ambient background glow for the key BRANDING */}
+                      <div className="absolute -inset-2 bg-gradient-to-r from-red-600 to-amber-500 rounded-lg blur opacity-30 select-none pointer-events-none" />
+                      <span className="relative block text-3xl md:text-4xl font-mono tracking-[0.2em] text-[#FF4500] font-black filter drop-shadow-[0_0_8px_rgba(255,69,0,0.5)]">
+                        CODE:HACK
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Visual Divider line */}
+                  <div className="flex items-center gap-3 w-64 my-4 text-white/10">
+                    <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-white/15" />
+                    <Zap className="w-4 h-4 text-[#D4AF37]/80 animate-bounce" />
+                    <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-white/15" />
+                  </div>
+
+                  {/* Interactive rules summary layout */}
+                  <div className="text-white/85 space-y-3 leading-relaxed max-w-md text-xs md:text-sm bg-white/[0.02] border border-white/5 p-5 rounded-2xl shadow-inner mt-1">
+                    <p className="font-extrabold flex items-center justify-center gap-2 text-white/90 text-sm tracking-wider">
+                      <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                      <span>【全権掌握（システム・ジャック）】システム概要</span>
+                    </p>
+                    <p className="text-white/60 text-xs text-left leading-relaxed">
+                      対局相手の駒を捕獲すると、チャージエネルギーが<span className="text-[#FF4500]/90 font-black px-1 border-b border-[#FF4500]/30">20%蓄積</span>されます。100%チャージ完了時に、玉将(王将)が持つ究極奥義【全権掌握（システム・ジャック）】の使用が許可されます。
+                    </p>
+                    <p className="text-white/60 text-xs text-left leading-relaxed">
+                      発動時、王の周囲2マスの範囲に存在する<span className="text-[#D4AF37] font-semibold">すべての敵駒を一瞬で洗脳</span>し、自軍の持ち駒として再構成する支配的超次元将棋ルール。
+                    </p>
+                  </div>
+
+                  {/* Terminal systems line */}
+                  <div className="flex items-center gap-4 mt-6 text-[9px] font-mono text-white/25 uppercase tracking-wider select-none">
+                    <span>GRID: CONNECTED</span>
+                    <span>•</span>
+                    <span>AI CALIBRATED: SUCCESS</span>
+                    <span>•</span>
+                    <span>CORE RECTOR: ONLINE</span>
+                  </div>
                 </div>
 
+                {/* PROTOCOL SELECTOR */}
                 <div className="w-full flex flex-col gap-4">
-                  <h3 className="text-xs text-white/40 font-mono font-bold uppercase tracking-widest text-center mt-2">
-                    ー 対局モードを選択 ー
+                  <h3 className="text-[10px] text-white/30 font-mono font-black uppercase tracking-[0.3em] text-center">
+                    ー 対局プロトコルを選択してください ー
                   </h3>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                     {/* CPU MATCH CARD */}
                     <button
                       onClick={handleStartVsAi}
-                      className="group p-6 bg-gradient-to-b from-white/[0.03] to-transparent hover:from-white/[0.06] rounded-2xl border border-white/5 hover:border-[#D4AF37]/45 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-3 cursor-pointer hover:translate-y-[-2px]"
+                      className="group p-6 bg-gradient-to-b from-[#111115]/80 to-transparent hover:from-[#1b1b22]/90 rounded-3xl border border-white/5 hover:border-[#D4AF37]/50 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-2px] backdrop-blur-sm"
                     >
-                      <div className="w-12 h-12 rounded-xl bg-[#D4AF37]/10 flex items-center justify-center border border-[#D4AF37]/20 group-hover:scale-110 transition duration-300">
-                        <Layers className="w-6 h-6 text-[#D4AF37]" />
+                      <div className="w-14 h-14 rounded-2xl bg-[#D4AF37]/5 flex items-center justify-center border border-[#D4AF37]/25 group-hover:scale-110 group-hover:bg-[#D4AF37]/15 group-hover:border-[#D4AF37]/50 transition duration-300 shadow-lg">
+                        <Layers className="w-7 h-7 text-[#D4AF37]" />
                       </div>
                       <div className="text-center">
-                        <span className="text-sm font-bold text-white block mb-1">VS CPU AI</span>
-                        <span className="text-[10px] text-white/45 font-normal leading-normal block max-w-[160px] mx-auto">
-                          コンピュータAIと対局します。1人プレイ用。
+                        <span className="text-sm font-extrabold text-white block mb-1.5 tracking-wider group-hover:text-[#D4AF37] transition duration-200">
+                          VS CPU AI (演算対局)
+                        </span>
+                        <span className="text-[10px] text-white/45 font-normal leading-relaxed block max-w-[190px] mx-auto">
+                          高水準の思考モジュールを搭載したコンピュータAIと対戦します。
                         </span>
                       </div>
                     </button>
@@ -1032,22 +1099,24 @@ export default function App() {
                     {/* LOCAL MATCH CARD */}
                     <button
                       onClick={handleStartLocalVsPlayer}
-                      className="group p-6 bg-gradient-to-b from-white/[0.03] to-transparent hover:from-white/[0.06] rounded-2xl border border-white/5 hover:border-[#FF4500]/45 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-3 cursor-pointer hover:translate-y-[-2px]"
+                      className="group p-6 bg-gradient-to-b from-[#111115]/80 to-transparent hover:from-[#1b1b22]/90 rounded-3xl border border-white/5 hover:border-[#FF4500]/50 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-2px] backdrop-blur-sm"
                     >
-                      <div className="w-12 h-12 rounded-xl bg-[#FF4500]/10 flex items-center justify-center border border-[#FF4500]/20 group-hover:scale-110 transition duration-300">
-                        <Users className="w-6 h-6 text-[#FF4500]" />
+                      <div className="w-14 h-14 rounded-2xl bg-[#FF4500]/5 flex items-center justify-center border border-[#FF4500]/25 group-hover:scale-110 group-hover:bg-[#FF4500]/15 group-hover:border-[#FF4500]/50 transition duration-300 shadow-lg">
+                        <Users className="w-7 h-7 text-[#FF4500]" />
                       </div>
                       <div className="text-center">
-                        <span className="text-sm font-bold text-white block mb-1">ローカル対局 (2P)</span>
-                        <span className="text-[10px] text-white/45 font-normal leading-normal block max-w-[160px] mx-auto">
-                          同じ画面で1台のデバイスを交互に操作して対戦します。
+                        <span className="text-sm font-extrabold text-white block mb-1.5 tracking-wider group-hover:text-[#FF4500] transition duration-200">
+                          VS LOCAL (盤面共有対局)
+                        </span>
+                        <span className="text-[10px] text-white/45 font-normal leading-relaxed block max-w-[190px] mx-auto">
+                          同じ画面を交互に操作し、1台のデバイスでローカル対戦を行います。
                         </span>
                       </div>
                     </button>
                   </div>
                 </div>
 
-              </div>
+              </motion.div>
             ) : (
               /* ACTIVE GAME INTERFACE */
               <div id="active_match_dashboard" className="flex flex-col lg:flex-row gap-8 w-full justify-center items-stretch max-w-5xl">
@@ -1243,7 +1312,7 @@ export default function App() {
               <div className="bg-white/[0.02] p-4 rounded-xl border border-dashed border-white/10">
                 <h3 className="font-bold text-white mb-1.5 flex items-center gap-1.5 font-sans">
                   <Zap className="w-4 h-4 text-[#FF4500]" />
-                  超必殺技「王将ハッキング」のルール
+                  超必殺技「全権掌握（システム・ジャック）」のルール
                 </h3>
                 <p>
                   この将棋における最大の特徴は、対局中に発動可能な超必殺技です。
@@ -1253,7 +1322,7 @@ export default function App() {
                     <strong>パワーチャージ：</strong>相手の駒を取るごとに、自分のハックゲージが<strong>+20%</strong>チャージされます（計5枚獲得が必要）。
                   </li>
                   <li>
-                    <strong>必殺ハック発動：</strong>ゲージが100%になり自分の手番の際、「王将ハッキング」ボタンをいつでも起動できます。
+                    <strong>必殺ハック発動：</strong>ゲージが100%になり自分の手番の際、「全権掌握（システム・ジャック）」ボタンをいつでも起動できます。
                   </li>
                   <li>
                     <strong>効果：</strong>自軍の玉将（王将）から２マス周囲（縦・横・斜め2マス先の5x5マスエリア）にいるすべての敵の駒を洗脳し、自分の駒（自軍の勢力）に強制書き換えできます。

@@ -1,6 +1,6 @@
 {
-  "name": "必殺ハック将棋",
-  "description": "超必殺ハック技を搭載した、オンライン対戦・棋譜保存機能付きの近代和風将棋アプリです。",
+  "name": "電脳将棋 CODE:HACK",
+  "description": "玉将の特殊必殺技【王将ハッキング】を搭載した、オンライン対局・CPU戦・棋譜保存機能付きの超次元ハック将棋ゲームです。",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
