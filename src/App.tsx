@@ -1427,10 +1427,10 @@ export default function App() {
               </motion.div>
             ) : (
               /* ACTIVE GAME INTERFACE */
-              <div id="active_match_dashboard" className="flex flex-col lg:flex-row gap-8 w-full justify-center items-stretch max-w-5xl">
+              <div id="active_match_dashboard" className="flex flex-col lg:flex-row gap-8 w-full justify-center items-stretch max-w-7xl">
                 
                 {/* Lateral Side: Gote player hand display */}
-                <div className="flex flex-col gap-4 justify-between items-center lg:items-end">
+                <div className="flex flex-col gap-4 justify-between items-center lg:items-end lg:w-[280px] lg:min-w-[280px] flex-shrink-0">
                   <HandDisplay
                     player="後手"
                     hand={goteHand}
@@ -1452,7 +1452,7 @@ export default function App() {
                   />
 
                   {/* Move notation list with clear board review info */}
-                  <div className="w-full max-w-[340px] p-4 rounded-2xl flex flex-col justify-between flex-1 mt-4 glass-panel border border-white/5">
+                  <div className="w-full max-w-[280px] p-4 rounded-2xl flex flex-col justify-between flex-1 mt-4 glass-panel border border-white/5">
                     <div>
                       <div className="flex justify-between items-center border-b border-white/5 pb-2 mb-2 font-mono text-[10px] font-bold text-white/40 uppercase">
                         <span>棋譜ログ / Move Logs</span>
@@ -1508,7 +1508,7 @@ export default function App() {
                 <div className="flex flex-col items-center justify-center gap-4 flex-1">
                   
                   {kingInCheck && !winner && (
-                    <div className="w-full max-w-[560px] p-2 bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 animate-bounce">
+                    <div className="w-full max-w-[740px] p-2 bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 animate-bounce">
                       <ShieldAlert className="w-4 h-4 animate-pulse" />
                       <span>警告: {kingInCheck}の玉（王）に「王手」がかかっています！</span>
                     </div>
@@ -1547,7 +1547,7 @@ export default function App() {
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="w-full max-w-[560px] p-4 rounded-2xl border border-cyan-500/30 bg-[#121E24]/90 backdrop-blur shadow-[0_0_20px_rgba(6,182,212,0.15)] flex flex-col gap-3 text-center"
+                        className="w-full max-w-[740px] p-4 rounded-2xl border border-cyan-500/30 bg-[#121E24]/90 backdrop-blur shadow-[0_0_20px_rgba(6,182,212,0.15)] flex flex-col gap-3 text-center"
                       >
                         <div className="flex items-center justify-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -1622,7 +1622,7 @@ export default function App() {
                 </div>
 
                 {/* Lateral Side: Sente player hand display */}
-                <div className="flex flex-col gap-4 items-center lg:items-start justify-start">
+                <div className="flex flex-col gap-4 items-center lg:items-start justify-start lg:w-[280px] lg:min-w-[280px] flex-shrink-0">
                   <HandDisplay
                     player="先手"
                     hand={senteHand}
@@ -1643,7 +1643,7 @@ export default function App() {
                   
                   {/* Real-time sync instructions for online */}
                   {gameMode === 'online' && (
-                    <div className="w-full max-w-[340px] p-4 rounded-2xl flex flex-col gap-2 mt-4 glass-panel border border-white/5">
+                    <div className="w-full max-w-[280px] p-4 rounded-2xl flex flex-col gap-2 mt-4 glass-panel border border-white/5">
                       <div className="flex items-center gap-2 text-[#D4AF37] font-bold text-xs font-mono">
                         <Users className="w-4 h-4" />
                         <span>オンライン戦情報</span>
