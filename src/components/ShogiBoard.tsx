@@ -70,12 +70,12 @@ export function ShogiBoard({
   };
 
   return (
-    <div id="shogi_board_container" className="relative p-3 md:p-6 bg-[#151518]/90 border border-white/5 rounded-2xl shadow-2xl flex flex-col items-center glass-panel">
+    <div id="shogi_board_container" className="relative p-3 md:p-6 bg-[#0c081b]/95 border-2 border-cyan-500/30 rounded-3xl shadow-[0_0_35px_rgba(0,240,255,0.15)] flex flex-col items-center glass-panel">
       
       {/* File Coordinates (Top) */}
       <div className="grid grid-cols-9 w-full max-w-[740px] mb-2.5 text-center">
         {files.map((file, idx) => (
-          <div key={`file_${idx}`} className="text-[10px] md:text-xs font-mono font-bold text-white/40">
+          <div key={`file_${idx}`} className="text-xs md:text-sm font-mono font-black text-[#00f0ff] drop-shadow-[0_0_4px_rgba(0,240,255,0.5)]">
             {file}
           </div>
         ))}
@@ -84,7 +84,7 @@ export function ShogiBoard({
       <div className="flex flex-row relative">
         
         {/* Main 9x9 Grid layout */}
-        <div id="shogi_grid" className="grid grid-cols-9 grid-rows-9 gap-[2px] bg-[#1A1A1D] p-[4px] border-6 border-[#2C2C30] rounded-xl shadow-2xl relative overflow-hidden" 
+        <div id="shogi_grid" className="grid grid-cols-9 grid-rows-9 gap-[2.5px] bg-[#140828] p-[6px] border-4 border-[#00f0ff] rounded-2xl shadow-[0_0_30px_rgba(0,240,255,0.4),inset_0_0_20px_rgba(0,240,255,0.2)] relative overflow-hidden" 
              style={{ width: '100%', maxWidth: '740px', aspectRatio: '1/1' }}>
           
           {board.map((row, rIdx) =>
@@ -108,31 +108,31 @@ export function ShogiBoard({
                   onClick={() => onTileClick(rIdx, cIdx)}
                   className={`
                     relative flex items-center justify-center cursor-pointer transition-all duration-200 select-none
-                    ${selected ? 'bg-[#3D3A30] border border-[#D4AF37]/60 shadow-inner' : ''}
-                    ${legal ? 'hover:bg-[#2E3C34] bg-[#222E26]' : 'hover:bg-[#2D2D33] bg-[#242428]'}
-                    ${lastTo ? 'bg-amber-950/40 border border-[#D4AF37]/40' : ''}
-                    ${lastFrom ? 'bg-amber-950/10' : ''}
-                    ${isInCheck ? 'bg-rose-950/40 border border-rose-500 animate-pulse' : ''}
-                    ${aura ? 'bg-emerald-500/10 border-2 border-emerald-500/40' : ''}
-                    ${canBeHacked ? 'bg-emerald-500/15 border border-dashed border-emerald-400/60' : ''}
-                    border border-white/[0.02]
+                    ${selected ? 'bg-cyan-500/20 border-2 border-[#00f0ff] shadow-[0_0_12px_rgba(0,240,255,0.4)] z-30' : ''}
+                    ${legal ? 'hover:bg-emerald-500/30 bg-emerald-950/40 border border-emerald-400/40 animate-pulse' : 'hover:bg-[#1f0f35]/90 bg-[#0b0416]/95'}
+                    ${lastTo ? 'bg-fuchsia-500/20 border border-[#ff007f]/50 shadow-[0_0_8px_rgba(255,0,127,0.3)]' : ''}
+                    ${lastFrom ? 'bg-[#1b0a21]/50' : ''}
+                    ${isInCheck ? 'bg-rose-950/60 border-2 border-rose-500 animate-pulse shadow-[0_0_15px_rgba(244,63,94,0.6)]' : ''}
+                    ${aura ? 'bg-emerald-500/20 border-2 border-emerald-400/80 shadow-[0_0_12px_rgba(52,211,153,0.4)]' : ''}
+                    ${canBeHacked ? 'bg-emerald-500/25 border-2 border-dashed border-emerald-400 animate-[pulse_1s_infinite] shadow-[0_0_15px_rgba(52,211,153,0.4)]' : ''}
+                    border border-violet-950/30
                   `}
                 >
                   {/* Subtle Grid Dot decorations (Traditional boards have 4 dots) */}
                   {((rIdx === 3 || rIdx === 6) && (cIdx === 3 || cIdx === 6)) && (
-                    <div className="absolute w-1 h-1 bg-[#1A1A1D] rounded-full" />
+                    <div className="absolute w-1.5 h-1.5 bg-[#00f0ff]/30 rounded-full shadow-[0_0_3px_rgba(0,240,255,0.4)]" />
                   )}
 
                   {/* King Hack Range Grid Cyber Matrix Scanlines */}
                   {inHackRange && (
-                    <div className="absolute inset-0 bg-emerald-500/[0.04] pointer-events-none overflow-hidden">
-                      <div className="absolute top-0 left-0 w-full h-[1px] bg-emerald-400/30 animate-[scan_2s_infinite]" />
+                    <div className="absolute inset-0 bg-emerald-500/[0.06] pointer-events-none overflow-hidden">
+                      <div className="absolute top-0 left-0 w-full h-[1.5px] bg-emerald-400/50 animate-[scan_2s_infinite]" />
                     </div>
                   )}
 
                   {/* Legal Move indicator dot/ring */}
                   {legal && (
-                    <div className="absolute w-2.5 h-2.5 rounded-full bg-emerald-500/60 border border-[#242428] shadow-sm z-30 pointer-events-none" />
+                    <div className="absolute w-3 h-3 rounded-full bg-[#00f0ff] border-2 border-[#140828] shadow-[0_0_6px_#00f0ff] z-30 pointer-events-none" />
                   )}
 
                   {/* Piece element with transitions */}
@@ -153,16 +153,20 @@ export function ShogiBoard({
                         <div className="absolute inset-0 w-full h-full flex items-center justify-center">
                           <svg
                             viewBox="0 0 100 120"
-                            className={`w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]`}
+                            className={`w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]`}
                           >
                             <defs>
-                              <linearGradient id="gradient-sente" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#E8E2D1" />
-                                <stop offset="100%" stopColor="#C7B797" />
+                              <linearGradient id={`gradient-sente-${piece.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#150a2e" />
+                                <stop offset="100%" stopColor="#080312" />
                               </linearGradient>
-                              <linearGradient id="gradient-gote" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#A19B8C" />
-                                <stop offset="100%" stopColor="#827A68" />
+                              <linearGradient id={`gradient-gote-${piece.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#2c051d" />
+                                <stop offset="100%" stopColor="#0f010a" />
+                              </linearGradient>
+                              <linearGradient id={`gradient-stargazer-${piece.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#092d35" />
+                                <stop offset="100%" stopColor="#020e11" />
                               </linearGradient>
                             </defs>
                             <polygon
@@ -170,9 +174,20 @@ export function ShogiBoard({
                               className={`
                                 transition-colors duration-200
                                 stroke-[3.5]
-                                ${selected ? 'stroke-[#D4AF37]' : 'stroke-[#1A1A1D]'}
+                                ${selected 
+                                  ? 'stroke-[#fffb00] drop-shadow-[0_0_8px_rgba(255,251,0,0.8)]' 
+                                  : piece.player === '先手' 
+                                    ? 'stroke-[#00f0ff]/80 hover:stroke-[#00f0ff]' 
+                                    : 'stroke-[#ff007f]/80 hover:stroke-[#ff007f]'
+                                }
                               `}
-                              fill={piece.player === '先手' ? 'url(#gradient-sente)' : 'url(#gradient-gote)'}
+                              fill={
+                                piece.type === 'スターゲイザー'
+                                  ? `url(#gradient-stargazer-${piece.id})`
+                                  : piece.player === '先手'
+                                    ? `url(#gradient-sente-${piece.id})`
+                                    : `url(#gradient-gote-${piece.id})`
+                              }
                             />
                           </svg>
                         </div>
@@ -181,10 +196,12 @@ export function ShogiBoard({
                         <div className={`
                           absolute flex flex-col items-center justify-center font-serif leading-none mt-1 z-20 select-none
                           ${piece.type === 'スターゲイザー'
-                            ? 'text-cyan-600 dark:text-cyan-400 font-black drop-shadow-[0_0_8px_rgba(6,182,212,0.9)] scale-110'
+                            ? 'text-[#fffb00] font-black drop-shadow-[0_0_8px_rgba(255,251,0,0.9)] scale-110'
                             : ['と', '成香', '成桂', '成銀', '馬', '竜'].includes(piece.type) 
-                              ? 'text-rose-700 font-extrabold' 
-                              : 'text-[#1A1A1D]'
+                              ? 'text-[#ff3366] font-extrabold drop-shadow-[0_0_4px_rgba(255,51,102,0.8)]' 
+                              : piece.player === '先手'
+                                ? 'text-[#00f0ff] font-bold drop-shadow-[0_0_4px_rgba(0,240,255,0.7)]'
+                                : 'text-[#ff007f] font-bold drop-shadow-[0_0_4px_rgba(255,0,127,0.7)]'
                           }
                         `}>
                           <span className={`font-semibold ${piece.type.length > 1 ? 'text-[11px] md:text-xs tracking-tighter' : 'text-xs md:text-sm'}`}>
@@ -193,7 +210,7 @@ export function ShogiBoard({
                         </div>
 
                         {/* Player control indicator tip */}
-                        <span className={`absolute top-0.5 w-1 h-1 rounded-full z-20 ${piece.player === '先手' ? 'bg-[#D4AF37]' : 'bg-[#FF4500]'}`} />
+                        <span className={`absolute top-0.5 w-1.5 h-1.5 rounded-full z-20 shadow-[0_0_4px_currentColor] ${piece.player === '先手' ? 'bg-[#00f0ff] text-[#00f0ff]' : 'bg-[#ff007f] text-[#ff007f]'}`} />
 
                         {/* Glow effect if charge is 100% on the King */}
                         {isKing && aura && (
@@ -202,7 +219,7 @@ export function ShogiBoard({
 
                         {/* Cosmic pulse for Stargazer */}
                         {piece.type === 'スターゲイザー' && (
-                          <div className="absolute inset-0 border-2 border-cyan-400 rounded-md animate-pulse opacity-40 z-0" />
+                          <div className="absolute inset-0 border-2 border-[#fffb00]/60 rounded-md animate-pulse opacity-40 z-0" />
                         )}
                       </motion.div>
                     )}
@@ -218,7 +235,7 @@ export function ShogiBoard({
           {ranks.map((rank, idx) => (
             <div
               key={`rank_${idx}`}
-              className="text-[9px] md:text-xs font-mono font-bold text-white/40 flex items-center justify-center"
+              className="text-xs md:text-sm font-mono font-black text-[#ff007f] drop-shadow-[0_0_4px_rgba(255,0,127,0.5)] flex items-center justify-center"
               style={{ height: 'calc(100% / 9)', minHeight: '32px' }}
             >
               {rank}
@@ -228,7 +245,7 @@ export function ShogiBoard({
       </div>
 
       {/* Cyber Info Bar */}
-      <div className="mt-3 flex gap-2 text-[10px] font-mono text-white/30 uppercase">
+      <div className="mt-3 flex gap-2 text-[10px] font-mono text-cyan-400/40 uppercase tracking-widest">
         <span>先手 = Sente (Up)</span>
         <span>•</span>
         <span>後手 = Gote (Down)</span>

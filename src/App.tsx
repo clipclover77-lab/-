@@ -1212,10 +1212,10 @@ export default function App() {
   };
 
   return (
-    <div id="shogi_app_root" className="min-h-screen bg-[#0F0F11] text-[#E2E2E2] flex flex-col font-sans relative overflow-x-hidden">
+    <div id="shogi_app_root" className="min-h-screen bg-[#07040d] text-[#f3f0fa] flex flex-col font-sans relative overflow-x-hidden">
       
       {/* Decorative cybernetic grid backgrounds */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-grid-pattern opacity-12 pointer-events-none z-0 animate-[pulse_10s_infinite]" />
 
       {/* Futuristic status alert banner overlay for hacks */}
       <AnimatePresence>
@@ -1224,26 +1224,26 @@ export default function App() {
             initial={{ y: -60, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -60, opacity: 0 }}
-            className="fixed top-4 left-1/2 -translate-x-1/2 bg-emerald-600/95 text-white font-mono text-xs md:text-sm shadow-2xl border border-emerald-405 p-3 px-6 rounded-2xl z-50 flex items-center gap-2 max-w-[90vw] text-center"
+            className="fixed top-4 left-1/2 -translate-x-1/2 bg-fuchsia-600/95 text-white font-mono text-xs md:text-sm shadow-[0_0_20px_rgba(255,0,127,0.6)] border border-[#ff007f] p-3 px-6 rounded-2xl z-50 flex items-center gap-2 max-w-[90vw] text-center"
           >
-            <Sparkles className="w-5 h-5 animate-spin text-emerald-300" />
+            <Sparkles className="w-5 h-5 animate-spin text-cyan-300" />
             <span className="font-bold">{glitchMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Main Header */}
-      <header className="sticky top-0 bg-[#161619]/80 backdrop-blur border-b border-white/5 z-40 py-3.5 px-4 md:px-8 flex justify-between items-center shadow-lg">
+      <header className="sticky top-0 bg-[#0e091a]/90 backdrop-blur-md border-b-2 border-cyan-500/30 z-40 py-3.5 px-4 md:px-8 flex justify-between items-center shadow-[0_4px_30px_rgba(0,240,255,0.15)]">
         <div className="flex items-center gap-2.5">
-          <div className="p-1.5 bg-gradient-to-tr from-[#FF4500] to-[#B22222] rounded-xl flex items-center justify-center text-white shadow-lg shadow-red-950/20">
+          <div className="p-1.5 bg-gradient-to-tr from-[#ff007f] to-[#7b00ff] rounded-xl flex items-center justify-center text-white shadow-[0_0_12px_rgba(255,0,127,0.5)]">
             <Sword className="w-5 h-5 rotate-45 animate-pulse" />
           </div>
           <div>
-            <h1 className="text-base md:text-xl font-extrabold tracking-widest leading-none bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#FF4500] bg-clip-text text-transparent flex items-center gap-1.5">
+            <h1 className="text-base md:text-xl font-extrabold tracking-widest leading-none bg-gradient-to-r from-[#00f0ff] via-[#fffb00] to-[#ff007f] bg-clip-text text-transparent flex items-center gap-1.5 drop-shadow-[0_0_6px_rgba(0,240,255,0.5)]">
               電脳将棋 CODE:HACK
             </h1>
-            <p className="text-[10px] text-white/40 font-mono mt-0.5">
-              SUPER SHOGI ULTIMATE HACK ENGINE
+            <p className="text-[10px] text-cyan-400/50 font-mono mt-0.5 tracking-wider">
+              CYBERNETIC SHOGI ULTIMATE HACK ENGINE
             </p>
           </div>
         </div>
@@ -1257,8 +1257,8 @@ export default function App() {
             }}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer select-none border ${
               activeTab === 'play'
-                ? 'bg-white/5 text-white font-extrabold border-white/10 shadow-inner'
-                : 'text-white/40 border-transparent hover:text-white/80'
+                ? 'bg-cyan-500/15 text-[#00f0ff] font-extrabold border-[#00f0ff]/60 shadow-[0_0_10px_rgba(0,240,255,0.25)]'
+                : 'text-violet-200/40 border-transparent hover:text-white/80 hover:bg-white/5'
             }`}
           >
             <Sword className="w-3.5 h-3.5" />
@@ -1269,8 +1269,8 @@ export default function App() {
             onClick={() => setActiveTab('saved')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer select-none border ${
               activeTab === 'saved'
-                ? 'bg-white/5 text-white font-extrabold border-white/10 shadow-inner'
-                : 'text-white/40 border-transparent hover:text-white/80'
+                ? 'bg-fuchsia-500/15 text-[#ff007f] font-extrabold border-[#ff007f]/60 shadow-[0_0_10px_rgba(255,0,127,0.25)]'
+                : 'text-violet-200/40 border-transparent hover:text-white/80 hover:bg-white/5'
             }`}
           >
             <Save className="w-3.5 h-3.5" />
@@ -1281,8 +1281,8 @@ export default function App() {
             onClick={() => setActiveTab('rules')}
             className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition cursor-pointer select-none border ${
               activeTab === 'rules'
-                ? 'bg-white/5 text-white font-extrabold border-white/10 shadow-inner'
-                : 'text-white/40 border-transparent hover:text-white/80'
+                ? 'bg-amber-500/15 text-[#fffb00] font-extrabold border-[#fffb00]/60 shadow-[0_0_10px_rgba(255,251,0,0.25)]'
+                : 'text-violet-200/40 border-transparent hover:text-white/80 hover:bg-white/5'
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
@@ -1309,71 +1309,71 @@ export default function App() {
               >
                 
                 {/* CYBERPUNK CHRONO TITLE CARD */}
-                <div className="w-full p-8 md:p-10 rounded-[2.5rem] border border-white/10 flex flex-col items-center bg-[#111115]/80 shadow-[0_0_60px_rgba(255,69,0,0.15)] relative overflow-hidden backdrop-blur-md">
+                <div className="w-full p-8 md:p-10 rounded-[2.5rem] border-2 border-cyan-500/30 flex flex-col items-center bg-[#0d061b]/95 shadow-[0_0_40px_rgba(0,240,255,0.25),0_0_15px_rgba(255,0,127,0.15)] relative overflow-hidden backdrop-blur-md">
                   
                   {/* Glowing header accents */}
-                  <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#FF4500] via-[#D4AF37] to-[#FF4500]" />
+                  <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-[#00f0ff] via-[#ff007f] to-[#fffb00]" />
                   
                   {/* Security Clearance Tag */}
-                  <div className="absolute top-4 right-6 flex items-center gap-1.5 text-[8.5px] font-mono font-black tracking-widest text-[#FF4500]/70 select-none animate-pulse">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#FF4500]" />
-                    SECURE NODE COMPROMISED
+                  <div className="absolute top-4 right-6 flex items-center gap-1.5 text-[8.5px] font-mono font-black tracking-widest text-[#ff007f] select-none animate-pulse">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff007f] shadow-[0_0_4px_#ff007f]" />
+                    SECURE NODE ACCESS ACTIVE
                   </div>
 
-                  <div className="absolute top-4 left-6 flex items-center gap-1.5 text-[8.5px] font-mono font-semibold tracking-widest text-white/35 select-none">
-                    PORT: 3000 / HOST: ACTIVE
+                  <div className="absolute top-4 left-6 flex items-center gap-1.5 text-[8.5px] font-mono font-bold tracking-widest text-cyan-400/50 select-none">
+                    PORT: 3000 / HOST: ONLINE
                   </div>
 
                   {/* Version tag */}
-                  <div className="mt-4 mb-2 py-0.5 px-3 rounded-full bg-white/[0.04] border border-white/10 text-[9px] font-mono font-extrabold text-[#D4AF37] tracking-[0.2em] uppercase shadow-inner">
-                    SYSTEM SUITE v2.2.4
+                  <div className="mt-4 mb-2 py-0.5 px-3 rounded-full bg-[#ff007f]/5 border border-[#ff007f]/30 text-[9px] font-mono font-extrabold text-[#fffb00] tracking-[0.2em] uppercase shadow-inner">
+                    NEON EDITION v2.5.0
                   </div>
 
                   {/* Ultimate Neo Cyber Logo Grid */}
                   <div className="relative my-4 flex flex-col items-center select-none">
-                    <span className="text-white/40 text-[10px] font-mono font-black uppercase tracking-[0.45em] mb-1.5">
+                    <span className="text-cyan-400/40 text-[10px] font-mono font-black uppercase tracking-[0.45em] mb-1.5">
                       CYBERNETIC SHOGI MATRIX
                     </span>
                     
-                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-widest uppercase relative font-sans">
+                    <h2 className="text-4xl md:text-5xl font-black text-white tracking-widest uppercase relative font-sans drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
                       電脳将棋
                     </h2>
                     
                     <div className="mt-3 relative">
                       {/* Ambient background glow for the key BRANDING */}
-                      <div className="absolute -inset-2 bg-gradient-to-r from-red-600 to-amber-500 rounded-lg blur opacity-30 select-none pointer-events-none" />
-                      <span className="relative block text-3xl md:text-4xl font-mono tracking-[0.2em] text-[#FF4500] font-black filter drop-shadow-[0_0_8px_rgba(255,69,0,0.5)]">
+                      <div className="absolute -inset-2 bg-gradient-to-r from-[#ff007f] to-[#00f0ff] rounded-lg blur-md opacity-40 select-none pointer-events-none" />
+                      <span className="relative block text-3xl md:text-4xl font-mono tracking-[0.2em] text-[#00f0ff] font-black filter drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">
                         CODE:HACK
                       </span>
                     </div>
                   </div>
 
                   {/* Visual Divider line */}
-                  <div className="flex items-center gap-3 w-64 my-4 text-white/10">
-                    <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-white/15" />
-                    <Zap className="w-4 h-4 text-[#D4AF37]/80 animate-bounce" />
-                    <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-white/15" />
+                  <div className="flex items-center gap-3 w-64 my-4 text-cyan-500/20">
+                    <div className="flex-1 h-[1.5px] bg-gradient-to-r from-transparent to-cyan-400/30" />
+                    <Zap className="w-4 h-4 text-[#fffb00] animate-bounce drop-shadow-[0_0_4px_#fffb00]" />
+                    <div className="flex-1 h-[1.5px] bg-gradient-to-l from-transparent to-fuchsia-500/30" />
                   </div>
 
                   {/* Interactive rules summary layout */}
-                  <div className="text-white/85 space-y-3 leading-relaxed max-w-md text-xs md:text-sm bg-white/[0.02] border border-white/5 p-5 rounded-2xl shadow-inner mt-1">
-                    <p className="font-extrabold flex items-center justify-center gap-2 text-white/90 text-sm tracking-wider">
-                      <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                  <div className="text-white/85 space-y-3 leading-relaxed max-w-md text-xs md:text-sm bg-cyan-950/15 border border-cyan-500/20 p-5 rounded-2xl shadow-inner mt-1">
+                    <p className="font-extrabold flex items-center justify-center gap-2 text-[#00f0ff] text-sm tracking-wider">
+                      <Sparkles className="w-4 h-4 text-[#fffb00] animate-spin" />
                       <span>【全権掌握（コード・ハック）】システム概要</span>
                     </p>
-                    <p className="text-white/60 text-xs text-left leading-relaxed">
-                      対局相手の駒を捕獲すると、チャージエネルギーが<span className="text-[#FF4500]/90 font-black px-1 border-b border-[#FF4500]/30">20%蓄積</span>されます。100%チャージ完了時に、玉将(王将)が持つ究極奥義【全権掌握（コード・ハック）】の使用が許可されます。
+                    <p className="text-violet-100/70 text-xs text-left leading-relaxed">
+                      対局相手の駒を捕獲すると、ハックチャージエネルギーが<span className="text-[#ff007f] font-black px-1 border-b border-[#ff007f]/40">20%蓄積</span>されます。100%チャージ完了時に、王将が持つ究極奥義【全権掌握（コード・ハック）】の使用が許可されます。
                     </p>
-                    <p className="text-white/60 text-xs text-left leading-relaxed">
-                      発動時、王の周囲2マスの範囲に存在する<span className="text-[#D4AF37] font-semibold">すべての敵駒を一瞬で洗脳</span>し、自軍の持ち駒として再構成する支配的超次元将棋ルール。
+                    <p className="text-violet-100/70 text-xs text-left leading-relaxed">
+                      発動時、王の周囲2マスの範囲(5x5マス)に存在する<span className="text-[#00f0ff] font-extrabold">すべての敵駒を一瞬でハック（洗脳）</span>し、自軍の持ち駒として再構成する、支配的かつ最高にポップな超次元将棋ルール。
                     </p>
                   </div>
 
                   {/* Terminal systems line */}
-                  <div className="flex items-center gap-4 mt-6 text-[9px] font-mono text-white/25 uppercase tracking-wider select-none">
+                  <div className="flex items-center gap-4 mt-6 text-[9px] font-mono text-cyan-400/40 uppercase tracking-wider select-none">
                     <span>GRID: CONNECTED</span>
                     <span>•</span>
-                    <span>AI CALIBRATED: SUCCESS</span>
+                    <span>AI CALIBRATED: YES</span>
                     <span>•</span>
                     <span>CORE RECTOR: ONLINE</span>
                   </div>
@@ -1381,7 +1381,7 @@ export default function App() {
 
                 {/* PROTOCOL SELECTOR */}
                 <div className="w-full flex flex-col gap-4">
-                  <h3 className="text-[10px] text-white/30 font-mono font-black uppercase tracking-[0.3em] text-center">
+                  <h3 className="text-[10px] text-cyan-400/40 font-mono font-black uppercase tracking-[0.3em] text-center">
                     ー 対局プロトコルを選択してください ー
                   </h3>
                   
@@ -1389,17 +1389,17 @@ export default function App() {
                     {/* CPU MATCH CARD */}
                     <button
                       onClick={handleStartVsAi}
-                      className="group p-6 bg-gradient-to-b from-[#111115]/80 to-transparent hover:from-[#1b1b22]/90 rounded-3xl border border-white/5 hover:border-[#D4AF37]/50 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-2px] backdrop-blur-sm"
+                      className="group p-6 bg-[#0c051a]/90 hover:bg-[#110726]/90 rounded-3xl border-2 border-cyan-500/25 hover:border-[#00f0ff] font-bold transition-all duration-300 shadow-[0_0_15px_rgba(0,240,255,0.1)] hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-3px] backdrop-blur-sm"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-[#D4AF37]/5 flex items-center justify-center border border-[#D4AF37]/25 group-hover:scale-110 group-hover:bg-[#D4AF37]/15 group-hover:border-[#D4AF37]/50 transition duration-300 shadow-lg">
-                        <Layers className="w-7 h-7 text-[#D4AF37]" />
+                      <div className="w-14 h-14 rounded-2xl bg-cyan-500/5 flex items-center justify-center border border-cyan-500/25 group-hover:scale-110 group-hover:bg-cyan-500/20 group-hover:border-[#00f0ff] transition duration-300 shadow-lg shadow-cyan-950/40">
+                        <Layers className="w-7 h-7 text-[#00f0ff] drop-shadow-[0_0_4px_#00f0ff]" />
                       </div>
                       <div className="text-center">
-                        <span className="text-sm font-extrabold text-white block mb-1.5 tracking-wider group-hover:text-[#D4AF37] transition duration-200">
-                          VS CPU AI (演算対局)
+                        <span className="text-base font-black text-white block mb-1.5 tracking-wider group-hover:text-[#00f0ff] transition duration-200">
+                          VS CPU AI (電脳演算対局)
                         </span>
-                        <span className="text-[10px] text-white/45 font-normal leading-relaxed block max-w-[190px] mx-auto">
-                          高水準の思考モジュールを搭載したコンピュータAIと対戦します。
+                        <span className="text-[10px] text-violet-100/60 font-normal leading-relaxed block max-w-[190px] mx-auto">
+                          最先端の人工知能思考モジュールを搭載したコンピュータAIと対局します。
                         </span>
                       </div>
                     </button>
@@ -1407,17 +1407,17 @@ export default function App() {
                     {/* LOCAL MATCH CARD */}
                     <button
                       onClick={handleStartLocalVsPlayer}
-                      className="group p-6 bg-gradient-to-b from-[#111115]/80 to-transparent hover:from-[#1b1b22]/90 rounded-3xl border border-white/5 hover:border-[#FF4500]/50 font-bold transition-all duration-300 shadow-2xl flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-2px] backdrop-blur-sm"
+                      className="group p-6 bg-[#0c051a]/90 hover:bg-[#110726]/90 rounded-3xl border-2 border-fuchsia-500/25 hover:border-[#ff007f] font-bold transition-all duration-300 shadow-[0_0_15px_rgba(255,0,127,0.1)] hover:shadow-[0_0_25px_rgba(255,0,127,0.4)] flex flex-col items-center gap-4 cursor-pointer hover:translate-y-[-3px] backdrop-blur-sm"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-[#FF4500]/5 flex items-center justify-center border border-[#FF4500]/25 group-hover:scale-110 group-hover:bg-[#FF4500]/15 group-hover:border-[#FF4500]/50 transition duration-300 shadow-lg">
-                        <Users className="w-7 h-7 text-[#FF4500]" />
+                      <div className="w-14 h-14 rounded-2xl bg-fuchsia-500/5 flex items-center justify-center border border-fuchsia-500/25 group-hover:scale-110 group-hover:bg-fuchsia-500/20 group-hover:border-[#ff007f] transition duration-300 shadow-lg shadow-fuchsia-950/40">
+                        <Users className="w-7 h-7 text-[#ff007f] drop-shadow-[0_0_4px_#ff007f]" />
                       </div>
                       <div className="text-center">
-                        <span className="text-sm font-extrabold text-white block mb-1.5 tracking-wider group-hover:text-[#FF4500] transition duration-200">
-                          VS LOCAL (盤面共有対局)
+                        <span className="text-base font-black text-white block mb-1.5 tracking-wider group-hover:text-[#ff007f] transition duration-200">
+                          VS LOCAL (局地共有対局)
                         </span>
-                        <span className="text-[10px] text-white/45 font-normal leading-relaxed block max-w-[190px] mx-auto">
-                          同じ画面を交互に操作し、1台のデバイスでローカル対戦を行います。
+                        <span className="text-[10px] text-violet-100/60 font-normal leading-relaxed block max-w-[190px] mx-auto">
+                          一台のデバイスを交互に操作し、同じ盤面上でローカル対戦を行います。
                         </span>
                       </div>
                     </button>
@@ -1452,23 +1452,23 @@ export default function App() {
                   />
 
                   {/* Move notation list with clear board review info */}
-                  <div className="w-full max-w-[280px] p-4 rounded-2xl flex flex-col justify-between flex-1 mt-4 glass-panel border border-white/5">
+                  <div className="w-full max-w-[280px] p-4 rounded-3xl flex flex-col justify-between flex-1 mt-4 glass-panel border-2 border-cyan-500/30 shadow-[0_0_15px_rgba(0,240,255,0.1)]">
                     <div>
-                      <div className="flex justify-between items-center border-b border-white/5 pb-2 mb-2 font-mono text-[10px] font-bold text-white/40 uppercase">
+                      <div className="flex justify-between items-center border-b border-cyan-500/20 pb-2 mb-2 font-mono text-[10px] font-black text-cyan-400/60 uppercase tracking-widest">
                         <span>棋譜ログ / Move Logs</span>
-                        <span className="text-[#D4AF37]">{movesLog.length}手経過</span>
+                        <span className="text-[#ff007f] drop-shadow-[0_0_3px_rgba(255,0,127,0.4)] font-black">{movesLog.length}手経過</span>
                       </div>
 
-                      <div className="h-[120px] lg:h-[220px] overflow-y-auto font-mono text-xs text-white/70 flex flex-col gap-1 pr-1 scrollbar">
+                      <div className="h-[120px] lg:h-[220px] overflow-y-auto font-mono text-xs text-violet-100/70 flex flex-col gap-1 pr-1 scrollbar">
                         {movesLog.length === 0 ? (
-                          <div className="text-center py-6 text-white/30 italic">対局を開始してください。</div>
+                          <div className="text-center py-6 text-violet-100/30 italic">対局を開始してください。</div>
                         ) : (
                           movesLog.slice().reverse().map((move, idx) => (
-                            <div key={`kifu_m_${idx}`} className="flex justify-between p-1 bg-white/[0.01] hover:bg-white/[0.03] transition rounded border border-transparent hover:border-white/5">
-                              <span className="text-white/30 font-mono text-[10px]">
+                            <div key={`kifu_m_${idx}`} className="flex justify-between p-1 bg-cyan-950/10 hover:bg-cyan-500/10 transition rounded-lg border border-transparent hover:border-cyan-500/20">
+                              <span className="text-cyan-400/40 font-mono text-[10px]">
                                 {movesLog.length - idx}.
                               </span>
-                              <span className="font-bold flex-1 pl-4 text-white/90">
+                              <span className="font-bold flex-1 pl-4 text-violet-100/90">
                                 {move.player}: {move.japaneseNotation}
                               </span>
                             </div>
@@ -1477,11 +1477,11 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-white/5 mt-2 flex gap-2">
+                    <div className="pt-3 border-t border-cyan-500/20 mt-2 flex gap-2">
                       <button
                         onClick={handleResign}
                         disabled={!!winner}
-                        className="flex-1 py-2 px-3 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/20 text-xs font-bold font-mono uppercase transition cursor-pointer disabled:opacity-40"
+                        className="flex-1 py-2 px-3 bg-fuchsia-950/30 hover:bg-[#ff007f]/20 text-[#ff007f] rounded-xl border border-[#ff007f]/40 hover:border-[#ff007f] text-xs font-black font-mono uppercase transition cursor-pointer disabled:opacity-40 shadow-[0_0_8px_rgba(255,0,127,0.1)] hover:shadow-[0_0_12px_rgba(255,0,127,0.3)]"
                       >
                         投了 (Resign)
                       </button>
@@ -1494,7 +1494,7 @@ export default function App() {
                             onSnapshotUnsubscribe.current = null;
                           }
                         }}
-                        className="py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+                        className="py-2 px-3 bg-cyan-950/20 hover:bg-[#00f0ff]/20 border border-cyan-500/40 hover:border-[#00f0ff] text-[#00f0ff] text-xs font-black rounded-xl transition cursor-pointer shadow-[0_0_8px_rgba(0,240,255,0.1)]"
                         title="マイメニューに戻る"
                       >
                         ロビー
@@ -1508,8 +1508,8 @@ export default function App() {
                 <div className="flex flex-col items-center justify-center gap-4 flex-1">
                   
                   {kingInCheck && !winner && (
-                    <div className="w-full max-w-[740px] p-2 bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 animate-bounce">
-                      <ShieldAlert className="w-4 h-4 animate-pulse" />
+                    <div className="w-full max-w-[740px] p-2.5 bg-[#ff007f]/10 border-2 border-[#ff007f] text-[#ff007f] rounded-2xl font-black text-xs flex items-center justify-center gap-1.5 animate-bounce shadow-[0_0_15px_rgba(255,0,127,0.45)]">
+                      <ShieldAlert className="w-4 h-4 animate-pulse text-[#ff007f]" />
                       <span>警告: {kingInCheck}の玉（王）に「王手」がかかっています！</span>
                     </div>
                   )}
@@ -1547,18 +1547,18 @@ export default function App() {
                       <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="w-full max-w-[740px] p-4 rounded-2xl border border-cyan-500/30 bg-[#121E24]/90 backdrop-blur shadow-[0_0_20px_rgba(6,182,212,0.15)] flex flex-col gap-3 text-center"
+                        className="w-full max-w-[740px] p-4 rounded-3xl border-2 border-cyan-500 bg-[#0c051a]/95 shadow-[0_0_25px_rgba(0,240,255,0.3)] flex flex-col gap-3 text-center"
                       >
                         <div className="flex items-center justify-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                          <span className="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase">
+                          <span className="w-2 h-2 rounded-full bg-[#00f0ff] animate-pulse" />
+                          <span className="font-mono text-xs font-black text-[#00f0ff] tracking-widest uppercase drop-shadow-[0_0_3px_#00f0ff]">
                             SYSTEM LINK: {selectedPiece.type} 制御ユニット
                           </span>
                         </div>
 
                         {isRookOrDragon && (
                           <div className="flex flex-col gap-2">
-                            <span className="text-[11px] text-white/70 leading-normal">
+                            <span className="text-[11px] text-violet-100/80 leading-normal">
                               ハックエナジーが100%のとき、この駒を究極変身させ、
                               縦一列すべての駒を一掃（消滅）できる【スターゲイザー】に改造できます。
                             </span>
@@ -1566,9 +1566,9 @@ export default function App() {
                               disabled={activeCharge < 100 || !canControl}
                               onClick={() => transformRookToStargazer(selectedPos)}
                               className={`
-                                py-2 px-4 rounded-xl font-mono text-xs font-black uppercase tracking-widest transition-all duration-300 border
+                                py-2.5 px-4 rounded-xl font-mono text-xs font-black uppercase tracking-widest transition-all duration-300 border
                                 ${activeCharge >= 100 && canControl
-                                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
+                                  ? 'bg-gradient-to-r from-[#00f0ff] via-[#7b00ff] to-[#ff007f] hover:from-[#00f0ff] hover:to-[#ff007f] text-white border-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.5)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
                                   : 'bg-white/5 text-white/20 border-white/10 cursor-not-allowed'
                                 }
                               `}
@@ -1580,7 +1580,7 @@ export default function App() {
 
                         {isStargazer && (
                           <div className="flex flex-col gap-2">
-                            <span className="text-[11px] text-white/70 leading-normal">
+                            <span className="text-[11px] text-violet-100/80 leading-normal">
                               通常移動のほか、前方縦1列（盤面の端まで）にあるすべての駒を
                               敵味方問わず瞬時に一掃・消滅させます。（敵王将を巻き込めば勝利！）
                             </span>
@@ -1590,7 +1590,7 @@ export default function App() {
                               className={`
                                 py-2.5 px-4 rounded-xl font-mono text-xs font-black uppercase tracking-widest transition-all duration-300 border
                                 ${canControl
-                                  ? 'bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white border-rose-400 shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
+                                  ? 'bg-gradient-to-r from-[#ff007f] via-[#7b00ff] to-[#00f0ff] hover:from-[#ff007f] hover:to-[#00f0ff] text-white border-[#ff007f] shadow-[0_0_15px_rgba(255,0,127,0.5)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
                                   : 'bg-white/5 text-white/20 border-white/10 cursor-not-allowed'
                                 }
                               `}
@@ -1604,18 +1604,18 @@ export default function App() {
                   })()}
 
                   {/* Active turn label */}
-                  <div className="flex items-center gap-3 bg-white/[0.01] p-3 px-6 rounded-2xl border border-white/5 font-mono shadow-inner">
-                    <span className="text-xs text-white/40 font-bold uppercase">
+                  <div className="flex items-center gap-3 bg-[#0d061b]/80 p-3 px-6 rounded-2xl border border-cyan-500/20 font-mono shadow-inner shadow-cyan-950/20">
+                    <span className="text-xs text-cyan-400/50 font-black uppercase tracking-widest">
                       手番 / Active Turn:
                     </span>
                     <span className="text-sm font-bold flex items-center gap-1.5">
-                      <div className={`w-3 h-3 rounded-full ${activePlayer === '先手' ? 'bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.5)]' : 'bg-[#FF4500] animate-pulse shadow-[0_0_10px_rgba(255,69,0,0.5)]'}`} />
-                      <span className={activePlayer === '先手' ? 'text-[#D4AF37]' : 'text-[#FF4500]'}>
+                      <div className={`w-3 h-3 rounded-full ${activePlayer === '先手' ? 'bg-[#00f0ff] shadow-[0_0_8px_#00f0ff]' : 'bg-[#ff007f] animate-pulse shadow-[0_0_8px_#ff007f]'}`} />
+                      <span className={activePlayer === '先手' ? 'text-[#00f0ff] drop-shadow-[0_0_3px_rgba(0,240,255,0.4)] font-black' : 'text-[#ff007f] drop-shadow-[0_0_3px_rgba(255,0,127,0.4)] font-black'}>
                         {activePlayer === '先手' ? '先手' : '後手'}
                       </span>
-                      {gameMode === 'vs_ai' && activePlayer === '後手' && <span className="text-white/45 text-xs font-normal"> (CPU思考中...)</span>}
-                      {gameMode === 'online' && activePlayer === onlineRole && <span className="text-white/45 text-xs font-normal"> (あなた)</span>}
-                      {gameMode === 'online' && activePlayer !== onlineRole && <span className="text-white/45 text-xs font-normal"> (相手の操作中)</span>}
+                      {gameMode === 'vs_ai' && activePlayer === '後手' && <span className="text-violet-100/40 text-xs font-normal"> (CPU思考中...)</span>}
+                      {gameMode === 'online' && activePlayer === onlineRole && <span className="text-violet-100/40 text-xs font-normal"> (あなた)</span>}
+                      {gameMode === 'online' && activePlayer !== onlineRole && <span className="text-violet-100/40 text-xs font-normal"> (相手の操作中)</span>}
                     </span>
                   </div>
 

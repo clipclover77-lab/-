@@ -5,35 +5,57 @@
   --font-serif: "Noto Serif JP", "Shippori Mincho", "Hiragino Mincho ProN", serif;
 }
 
-/* Custom Sophisticated Dark styling rules */
+/* Custom Cyberpunk Pop styling rules */
 body {
-  background-color: #0A0A0B !important;
-  color: #E2E2E2 !important;
+  background-color: #07040d !important;
+  color: #f3f0fa !important;
 }
 
 .glass-panel {
-  background: rgba(30, 30, 35, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  backdrop-filter: blur(8px);
+  background: rgba(14, 9, 26, 0.88);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 0, 127, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+/* Cyber Neon utilities */
+.cyber-glow-cyan {
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.45), inset 0 0 10px rgba(0, 240, 255, 0.15);
+  border-color: rgba(0, 240, 255, 0.6) !important;
+}
+
+.cyber-glow-pink {
+  box-shadow: 0 0 15px rgba(255, 0, 127, 0.45), inset 0 0 10px rgba(255, 0, 127, 0.15);
+  border-color: rgba(255, 0, 127, 0.6) !important;
+}
+
+.cyber-glow-yellow {
+  box-shadow: 0 0 15px rgba(255, 240, 0, 0.5), inset 0 0 10px rgba(255, 240, 0, 0.15);
+  border-color: rgba(255, 240, 0, 0.7) !important;
+}
+
+.cyber-text-cyan {
+  color: #00f0ff !important;
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.8), 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+.cyber-text-pink {
+  color: #ff007f !important;
+  text-shadow: 0 0 6px rgba(255, 0, 127, 0.8), 0 0 12px rgba(255, 0, 127, 0.4);
+}
+
+.cyber-text-yellow {
+  color: #fffb00 !important;
+  text-shadow: 0 0 8px rgba(255, 251, 0, 0.9), 0 0 16px rgba(255, 251, 0, 0.5);
 }
 
 .shogi-grid-themed {
-  background-color: #1A1A1D;
-  padding: 4px;
-  border: 6px solid #2C2C30;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-  border-radius: 8px;
-}
-
-.shogi-cell-themed {
-  background-color: #242428;
-  transition: background-color 0.2s ease;
-}
-
-.shogi-cell-themed:hover {
-  background-color: #2D2D33;
+  background-color: #080312;
+  padding: 6px;
+  border: 4px solid #00f0ff;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.3), inset 0 0 15px rgba(0, 240, 255, 0.15);
+  border-radius: 12px;
 }
 
 /* Cyber Matrix scanning bar animation */
@@ -51,57 +73,58 @@ body {
 
 /* Gauge styling */
 .gauge-container {
-  height: 10px;
-  background: #1A1A1D;
-  border-radius: 5px;
+  height: 12px;
+  background: #0d061c;
+  border-radius: 6px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 0, 127, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .gauge-fill {
   height: 100%;
-  background: linear-gradient(90deg, #D4AF37, #FF4500);
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  background: linear-gradient(90deg, #ff007f, #00f0ff);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
 }
 
 .hack-button-active {
-  background: linear-gradient(135deg, #FF4500, #B22222);
+  background: linear-gradient(135deg, #ff007f, #8b00ff);
   color: white;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
   animation: pulse-active 1.5s infinite alternate;
 }
 
 @keyframes pulse-active {
   from {
     opacity: 0.85;
-    box-shadow: 0 0 5px #FF4500;
+    box-shadow: 0 0 8px #ff007f, 0 0 20px rgba(139, 0, 255, 0.5);
   }
   to {
     opacity: 1;
-    box-shadow: 0 0 20px #FF4500;
+    box-shadow: 0 0 20px #ff007f, 0 0 35px rgba(0, 240, 255, 0.8);
   }
 }
 
 /* Custom background pattern */
 .bg-grid-pattern {
-  background-size: 24px 24px;
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(to right, rgba(0, 240, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 0, 127, 0.06) 1px, transparent 1px);
 }
 
 /* Custom scrollbar */
 .scrollbar::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 .scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 240, 255, 0.2);
   border-radius: 99px;
+  border: 1px solid rgba(255, 0, 127, 0.15);
 }
 .scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 240, 255, 0.45);
 }
-

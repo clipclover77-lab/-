@@ -1,5 +1,5 @@
 import { Piece, PieceType, DEMOTION_MAP } from '../shogiEngine';
-import { Zap, ShieldAlert, Laptop, Radio } from 'lucide-react';
+import { Zap, Radio } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface HandDisplayProps {
@@ -38,31 +38,32 @@ export function HandDisplay({
 
   const isSente = player === '先手';
   const isCharged = charge >= 100;
-
   return (
     <div
       id={`hand_${player}`}
       className={`
-        p-4 rounded-2xl border transition-all duration-300 w-full max-w-[340px] shadow-2xl flex flex-col justify-between glass-panel
+        p-4 rounded-3xl border-2 transition-all duration-300 w-full max-w-[340px] shadow-2xl flex flex-col justify-between glass-panel
         ${isActive
-          ? 'border-[#D4AF37]/50 ring-1 ring-[#D4AF37]/20 shadow-[#D4AF37]/5 bg-[#1E1E23]/95'
-          : 'border-white/5 bg-[#141416]/70 opacity-80'
+          ? isSente
+            ? 'border-[#00f0ff]/60 ring-2 ring-[#00f0ff]/10 shadow-[0_0_18px_rgba(0,240,255,0.25)] bg-[#100724]/95'
+            : 'border-[#ff007f]/60 ring-2 ring-[#ff007f]/10 shadow-[0_0_18px_rgba(255,0,127,0.25)] bg-[#1f0314]/95'
+          : 'border-violet-950/30 bg-[#07030e]/75 opacity-70'
         }
       `}
     >
       {/* Player Header */}
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-2">
-          <div className={`w-2.5 h-2.5 rounded-full ${isSente ? 'bg-[#D4AF37]' : 'bg-[#FF4500]'}`} />
-          <span className="font-bold text-sm md:text-base text-[#E2E2E2] flex items-center gap-1.5 animate-none">
+          <div className={`w-3 h-3 rounded-full animate-pulse shadow-[0_0_6px_currentColor] ${isSente ? 'bg-[#00f0ff] text-[#00f0ff]' : 'bg-[#ff007f] text-[#ff007f]'}`} />
+          <span className={`font-black text-sm md:text-base flex items-center gap-1.5 ${isSente ? 'text-[#00f0ff] drop-shadow-[0_0_3px_rgba(0,240,255,0.4)]' : 'text-[#ff007f] drop-shadow-[0_0_3px_rgba(255,0,127,0.4)]'}`}>
             {playerName}
-            <span className="text-xs text-white/40 font-mono">
+            <span className="text-[10px] text-white/40 font-mono">
               ({player})
             </span>
           </span>
         </div>
         {isCpu && (
-          <span className="text-[10px] bg-white/5 text-white/60 font-mono px-1.5 py-0.5 rounded border border-white/10 uppercase tracking-widest">
+          <span className="text-[10px] bg-white/5 text-[#fffb00] font-mono px-2 py-0.5 rounded border border-[#fffb00]/30 uppercase tracking-widest animate-pulse">
             CPU AI
           </span>
         )}
@@ -75,7 +76,7 @@ export function HandDisplay({
         </div>
 
         {hand.length === 0 ? (
-          <div className="text-center py-3 text-xs italic text-white/20 border border-dashed border-white/5 rounded-lg bg-black/25">
+          <div className="text-center py-4 text-xs italic text-white/20 border border-dashed border-violet-950/60 rounded-xl bg-black/40">
             持ち駒がありません
           </div>
         ) : (
@@ -100,21 +101,21 @@ export function HandDisplay({
                   }}
                   disabled={!isActive || isCpu}
                   className={`
-                    relative flex items-center justify-center w-11 h-12 rounded-lg border font-bold text-sm transition-all shadow-md
+                    relative flex items-center justify-center w-11 h-12 rounded-xl border font-bold text-sm transition-all shadow-md
                     ${isSelectedType
-                      ? 'bg-[#3D3A30] border-[#D4AF37] scale-105 shadow-md'
-                      : 'bg-white/[0.04] border-white/10 hover:bg-white/10 text-white/90 hover:border-white/20'
+                      ? 'bg-[#00f0ff]/10 border-2 border-[#00f0ff] scale-105 shadow-[0_0_10px_rgba(0,240,255,0.5)] text-[#00f0ff]'
+                      : 'bg-[#120a23] border-violet-950/60 hover:bg-[#1e1039] text-violet-100 hover:border-[#00f0ff]/50'
                     }
                     ${isActive ? 'cursor-pointer' : 'cursor-default'}
                   `}
                 >
-                  <span className="text-[#E2E2E2] font-serif select-none">
+                  <span className={`font-serif select-none ${isSelectedType ? 'text-[#00f0ff] font-extrabold' : 'text-violet-100/90'}`}>
                     {type}
                   </span>
 
                   {/* Quantity Indicator badge */}
                   {data.indices.length > 1 && (
-                    <span className="absolute -top-1.5 -right-1.5 bg-[#FF4500] text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center border border-[#1A1A1D] shadow font-bold">
+                    <span className="absolute -top-1.5 -right-1.5 bg-[#ff007f] text-white font-mono text-[9px] w-4 h-4 rounded-full flex items-center justify-center border border-[#140828] shadow font-black">
                       {data.indices.length}
                     </span>
                   )}
@@ -126,13 +127,13 @@ export function HandDisplay({
       </div>
 
       {/* Super Hack Charge Meter Widget */}
-      <div className="border-t border-white/5 pt-3 flex flex-col gap-2">
+      <div className="border-t border-violet-950/40 pt-3 flex flex-col gap-2">
         <div className="flex justify-between items-center">
-          <span className="text-[10px] font-bold text-[#FF4500] font-mono uppercase tracking-widest flex items-center gap-1">
-            <Zap className={`w-3.5 h-3.5 ${isCharged ? 'text-[#FF4500] animate-pulse' : 'text-white/30'}`} />
+          <span className="text-[10px] font-black text-[#ff007f] font-mono uppercase tracking-widest flex items-center gap-1">
+            <Zap className={`w-3.5 h-3.5 ${isCharged ? 'text-[#fffb00] animate-pulse drop-shadow-[0_0_4px_#fffb00]' : 'text-white/30'}`} />
             HACK ENERGY
           </span>
-          <span className={`font-mono text-xs font-bold ${isCharged ? 'text-[#FF4500] animate-pulse' : 'text-white/60'}`}>
+          <span className={`font-mono text-xs font-black ${isCharged ? 'text-[#fffb00] animate-pulse' : 'text-white/60'}`}>
             {charge}%
           </span>
         </div>
@@ -156,15 +157,15 @@ export function HandDisplay({
           }}
           disabled={!isCharged || !isActive || isCpu}
           className={`
-            w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-bold font-mono text-xs uppercase shadow transition-all border tracking-widest
+            w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl font-black font-mono text-xs uppercase shadow transition-all border tracking-widest
             ${isCharged && isActive && !isCpu
-              ? 'hack-button-active text-white border-none cursor-pointer hover:scale-[1.01] active:scale-[0.99]'
+              ? 'hack-button-active text-white border-none cursor-pointer hover:scale-[1.01] active:scale-[0.99] shadow-[0_0_15px_rgba(255,0,127,0.5)]'
               : 'bg-white/5 border-white/10 text-white/20 cursor-not-allowed'
             }
-            ${isCharged && isCpu ? 'bg-[#FF4500]/10 border-dashed border-[#FF4500]/40 animate-pulse text-[#FF4500]' : ''}
+            ${isCharged && isCpu ? 'bg-[#ff007f]/10 border-dashed border-[#ff007f]/40 animate-pulse text-[#ff007f]' : ''}
           `}
         >
-          <Radio className={`w-3.5 h-3.5 ${isCharged ? 'animate-pulse' : ''}`} />
+          <Radio className={`w-3.5 h-3.5 ${isCharged ? 'animate-pulse text-[#fffb00]' : ''}`} />
           {isCharged && isCpu ? (
             <span>HACK READY (AI WILL USE)</span>
           ) : (
@@ -174,7 +175,7 @@ export function HandDisplay({
 
         {/* Informative hack conditions */}
         <div className="text-[9px] text-[#8C8C92] italic leading-relaxed">
-          ※ 相手の駒を取るごとに +20% チャージ。100%になると王(玉)の周囲2マス(5x5マス)にいる敵の駒を全てハックし洗脳できます。
+          ※ 相手 detour 駒を取るごとに +20% チャージ。100%になると王(玉)の周囲2マス(5x5マス)にいる敵の駒を全てハックし洗脳できます。
         </div>
       </div>
     </div>
