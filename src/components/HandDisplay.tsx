@@ -168,7 +168,7 @@ export function HandDisplay({
           {isCharged && isCpu ? (
             <span>HACK READY (AI WILL USE)</span>
           ) : (
-            <span>全権掌握（システム・ジャック）</span>
+            <span>全権掌握（コード・ハック）</span>
           )}
         </button>
 

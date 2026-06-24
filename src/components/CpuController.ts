@@ -27,6 +27,7 @@ const PIECE_VALUES: Record<PieceType, number> = {
   '成銀': 60,
   '馬': 100,
   '竜': 120,
+  'スターゲイザー': 200,
 };
 
 interface EvaluatedMove {

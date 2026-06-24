@@ -73,7 +73,7 @@ export function ShogiBoard({
     <div id="shogi_board_container" className="relative p-3 md:p-6 bg-[#151518]/90 border border-white/5 rounded-2xl shadow-2xl flex flex-col items-center glass-panel">
       
       {/* File Coordinates (Top) */}
-      <div className="grid grid-cols-9 w-full max-w-[450px] mb-2.5 text-center">
+      <div className="grid grid-cols-9 w-full max-w-[560px] mb-2.5 text-center">
         {files.map((file, idx) => (
           <div key={`file_${idx}`} className="text-[10px] md:text-xs font-mono font-bold text-white/40">
             {file}
@@ -85,7 +85,7 @@ export function ShogiBoard({
         
         {/* Main 9x9 Grid layout */}
         <div id="shogi_grid" className="grid grid-cols-9 grid-rows-9 gap-[2px] bg-[#1A1A1D] p-[4px] border-6 border-[#2C2C30] rounded-xl shadow-2xl relative overflow-hidden" 
-             style={{ width: '100%', maxWidth: '450px', aspectRatio: '1/1' }}>
+             style={{ width: '100%', maxWidth: '560px', aspectRatio: '1/1' }}>
           
           {board.map((row, rIdx) =>
             row.map((piece, cIdx) => {
@@ -180,13 +180,15 @@ export function ShogiBoard({
                         {/* Piece Kanji Characters */}
                         <div className={`
                           absolute flex flex-col items-center justify-center font-serif leading-none mt-1 z-20 select-none
-                          ${['と', '成香', '成桂', '成銀', '馬', '竜'].includes(piece.type) 
-                            ? 'text-rose-700 font-extrabold' 
-                            : 'text-[#1A1A1D]'
+                          ${piece.type === 'スターゲイザー'
+                            ? 'text-cyan-600 dark:text-cyan-400 font-black drop-shadow-[0_0_8px_rgba(6,182,212,0.9)] scale-110'
+                            : ['と', '成香', '成桂', '成銀', '馬', '竜'].includes(piece.type) 
+                              ? 'text-rose-700 font-extrabold' 
+                              : 'text-[#1A1A1D]'
                           }
                         `}>
-                          <span className={`font-semibold ${piece.type.length > 1 ? 'text-[11px] md:text-xs tracking-tighter' : 'text-xs md:text-sm'}`}>
-                            {piece.type === '玉' && piece.player === '後手' ? '王' : piece.type}
+                          <span className={`font-semibold ${piece.type.length > 1 ? 'text-[11px] sm:text-xs md:text-sm tracking-tighter' : 'text-xs sm:text-sm md:text-base'}`}>
+                            {piece.type === '玉' && piece.player === '後手' ? '王' : (piece.type === 'スターゲイザー' ? '天星' : piece.type)}
                           </span>
                         </div>
 
@@ -196,6 +198,11 @@ export function ShogiBoard({
                         {/* Glow effect if charge is 100% on the King */}
                         {isKing && aura && (
                           <div className="absolute inset-0 border border-emerald-400 rounded-md animate-ping opacity-60 z-0" />
+                        )}
+
+                        {/* Cosmic pulse for Stargazer */}
+                        {piece.type === 'スターゲイザー' && (
+                          <div className="absolute inset-0 border-2 border-cyan-400 rounded-md animate-pulse opacity-40 z-0" />
                         )}
                       </motion.div>
                     )}

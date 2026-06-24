@@ -249,6 +249,69 @@ export default function App() {
 
   // Execute CPU AI's move selection
   const executeAiMove = () => {
+    // 1. CPU Stargazer Sweep Action Evaluation
+    let cpuStargazerPos: Position | null = null;
+    for (let r = 0; r < 9; r++) {
+      for (let c = 0; c < 9; c++) {
+        const p = board[r][c];
+        if (p && p.type === 'スターゲイザー' && p.player === '後手') {
+          cpuStargazerPos = { r, c };
+          break;
+        }
+      }
+      if (cpuStargazerPos) break;
+    }
+
+    if (cpuStargazerPos) {
+      const { r, c } = cpuStargazerPos;
+      const sweptTiles: Position[] = [];
+      let containsSenteKing = false;
+      let targetPiecesCount = 0;
+
+      // For Gote ('後手'), front vertical column is row > r
+      for (let row = r + 1; row < 9; row++) {
+        const targetPiece = board[row][c];
+        if (targetPiece) {
+          sweptTiles.push({ r: row, c });
+          if (targetPiece.player === '先手') {
+            targetPiecesCount++;
+            if (targetPiece.type === '玉') {
+              containsSenteKing = true;
+            }
+          }
+        }
+      }
+
+      // If Sente's King is in range, or with 50% probability if there are multiple targets, shoot the laser column sweep!
+      if (containsSenteKing || (targetPiecesCount >= 2 && Math.random() < 0.50)) {
+        executeStargazerSweep(cpuStargazerPos);
+        setAiIsThinking(false);
+        return;
+      }
+    }
+
+    // 2. CPU Rook-to-Stargazer Transformation Option
+    if (goteCharge >= 100) {
+      let rookPos: Position | null = null;
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          const p = board[r][c];
+          if (p && p.player === '後手' && (p.type === '飛' || p.type === '竜')) {
+            rookPos = { r, c };
+            break;
+          }
+        }
+        if (rookPos) break;
+      }
+
+      // 50% chance to transform Rook to Stargazer instead of using System Jack (or normal moves)
+      if (rookPos && Math.random() < 0.50) {
+        transformRookToStargazer(rookPos);
+        setAiIsThinking(false);
+        return;
+      }
+    }
+
     const decision = calculateBestCpuMove(board, goteHand, goteCharge);
 
     if (decision === 'HACK') {
@@ -341,14 +404,25 @@ export default function App() {
     let currentInCheck: PlayerColor | null = null;
     let nextWinner: PlayerColor | null = null;
 
-    if (isKingInCheck('先手', nextBoard)) {
-      currentInCheck = '先手';
-      playCheckAlarmSound();
-    }
+    const senteKingPos = findKing('先手', nextBoard);
+    const goteKingPos = findKing('後手', nextBoard);
 
-    if (!hasAnyLegalMoves('先手', nextBoard, nextSenteHand)) {
-      // Sente is checkmated
+    if (!senteKingPos && !goteKingPos) {
       nextWinner = '後手';
+    } else if (!senteKingPos) {
+      nextWinner = '後手';
+    } else if (!goteKingPos) {
+      nextWinner = '先手';
+    } else {
+      if (isKingInCheck('先手', nextBoard)) {
+        currentInCheck = '先手';
+        playCheckAlarmSound();
+      }
+
+      if (!hasAnyLegalMoves('先手', nextBoard, nextSenteHand)) {
+        // Sente is checkmated
+        nextWinner = '後手';
+      }
     }
 
     setBoard(nextBoard);
@@ -438,14 +512,25 @@ export default function App() {
     let currentInCheck: PlayerColor | null = null;
     let nextWinner: PlayerColor | null = null;
 
-    if (isKingInCheck(nextTurn, nextBoard)) {
-      currentInCheck = nextTurn;
-      playCheckAlarmSound();
-    }
+    const senteKingPos = findKing('先手', nextBoard);
+    const goteKingPos = findKing('後手', nextBoard);
 
-    const opponentHand = nextTurn === '先手' ? nextSenteHand : nextGoteHand;
-    if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+    if (!senteKingPos && !goteKingPos) {
       nextWinner = activePlayer;
+    } else if (!senteKingPos) {
+      nextWinner = '後手';
+    } else if (!goteKingPos) {
+      nextWinner = '先手';
+    } else {
+      if (isKingInCheck(nextTurn, nextBoard)) {
+        currentInCheck = nextTurn;
+        playCheckAlarmSound();
+      }
+
+      const opponentHand = nextTurn === '先手' ? nextSenteHand : nextGoteHand;
+      if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+        nextWinner = activePlayer;
+      }
     }
 
     // Update locally
@@ -528,14 +613,25 @@ export default function App() {
     let currentInCheck: PlayerColor | null = null;
     let nextWinner: PlayerColor | null = null;
 
-    if (isKingInCheck(nextTurn, nextBoard)) {
-      currentInCheck = nextTurn;
-      playCheckAlarmSound();
-    }
+    const senteKingPos = findKing('先手', nextBoard);
+    const goteKingPos = findKing('後手', nextBoard);
 
-    const opponentHand = nextTurn === '先手' ? nextSenteHand : nextGoteHand;
-    if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+    if (!senteKingPos && !goteKingPos) {
       nextWinner = activePlayer;
+    } else if (!senteKingPos) {
+      nextWinner = '後手';
+    } else if (!goteKingPos) {
+      nextWinner = '先手';
+    } else {
+      if (isKingInCheck(nextTurn, nextBoard)) {
+        currentInCheck = nextTurn;
+        playCheckAlarmSound();
+      }
+
+      const opponentHand = nextTurn === '先手' ? nextSenteHand : nextGoteHand;
+      if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+        nextWinner = activePlayer;
+      }
     }
 
     // Set states
@@ -606,7 +702,7 @@ export default function App() {
     setHackedFlashTiles(victims);
     playKingHackSound();
     
-    setGlitchMessage(`SYSTEM WARNING: ${actor === '先手' ? '先手' : '後手'}の【全権掌握（システム・ジャック）】発動！ 範囲内の敵 ${victims.length} 駒が洗脳ハックされました！`);
+    setGlitchMessage(`SYSTEM WARNING: ${actor === '先手' ? '先手' : '後手'}の【全権掌握（コード・ハック）】発動！ 範囲内の敵 ${victims.length} 駒が洗脳ハックされました！`);
     
     // Clear flash FX after 1.5s
     setTimeout(() => {
@@ -662,6 +758,218 @@ export default function App() {
         nextMoves,
         nextWinner,
         { from: null, to: kingPos }
+      );
+    }
+
+    // Clear selections
+    setSelectedPos(null);
+    setSelectedHandPiece(null);
+    setLegalMoves([]);
+  };
+
+  // Trigger "Rook to Stargazer" Transformation (100% Charge cost)
+  const transformRookToStargazer = (pos: Position) => {
+    const originalPiece = board[pos.r][pos.c];
+    if (!originalPiece || (originalPiece.type !== '飛' && originalPiece.type !== '竜')) return;
+    
+    const actor = originalPiece.player;
+    const charge = actor === '先手' ? senteCharge : goteCharge;
+    if (charge < 100) return;
+
+    let nextBoard = board.map((row) => [...row]);
+    nextBoard[pos.r][pos.c] = {
+      ...originalPiece,
+      id: `${actor === '先手' ? 's' : 'g'}_スターゲイザー_${Math.random().toString(36).substring(2, 6)}`,
+      type: 'スターゲイザー',
+    };
+
+    // Reset charge
+    let nextSenteCharge = senteCharge;
+    let nextGoteCharge = goteCharge;
+    if (actor === '先手') {
+      nextSenteCharge = 0;
+    } else {
+      nextGoteCharge = 0;
+    }
+
+    playPromotionSound();
+    
+    setGlitchMessage(`SYSTEM WARNING: ${actor === '先手' ? '先手' : '後手'}の飛車が次元兵器【スターゲイザー】に変身しました！`);
+    
+    setTimeout(() => {
+      setGlitchMessage(null);
+    }, 4500);
+
+    const nextTurn: PlayerColor = actor === '先手' ? '後手' : '先手';
+
+    // Log Kifu
+    const loggedMove: KifuMove = {
+      from: pos,
+      to: pos,
+      pieceType: 'スターゲイザー',
+      wasPromoted: true,
+      player: actor,
+      moveNumber: movesLog.length + 1,
+      japaneseNotation: `${actor === '先手' ? '▲' : '△'}飛車変身 [天星]`,
+    };
+
+    const nextMoves = [...movesLog, loggedMove];
+
+    // Evaluate win condition (missing King check)
+    let currentInCheck: PlayerColor | null = null;
+    let nextWinner: PlayerColor | null = null;
+
+    const senteKingPos = findKing('先手', nextBoard);
+    const goteKingPos = findKing('後手', nextBoard);
+
+    if (!senteKingPos && !goteKingPos) {
+      nextWinner = actor;
+    } else if (!senteKingPos) {
+      nextWinner = '後手';
+    } else if (!goteKingPos) {
+      nextWinner = '先手';
+    } else {
+      if (isKingInCheck(nextTurn, nextBoard)) {
+        currentInCheck = nextTurn;
+        playCheckAlarmSound();
+      }
+      const opponentHand = nextTurn === '先手' ? senteHand : goteHand;
+      if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+        nextWinner = actor;
+      }
+    }
+
+    setBoard(nextBoard);
+    setSenteCharge(nextSenteCharge);
+    setGoteCharge(nextGoteCharge);
+    setActivePlayer(nextTurn);
+    setMovesLog(nextMoves);
+    setKingInCheck(currentInCheck);
+    if (nextWinner) setWinner(nextWinner);
+
+    // Sync online
+    if (gameMode === 'online') {
+      syncMatchToFirestore(
+        nextBoard,
+        senteHand,
+        goteHand,
+        nextSenteCharge,
+        nextGoteCharge,
+        nextTurn,
+        nextMoves,
+        nextWinner,
+        { from: pos, to: pos }
+      );
+    }
+
+    // Clear selections
+    setSelectedPos(null);
+    setSelectedHandPiece(null);
+    setLegalMoves([]);
+  };
+
+  // Trigger "Stargazer Column Sweep" (Deletes everything in front vertical column)
+  const executeStargazerSweep = (pos: Position) => {
+    const originalPiece = board[pos.r][pos.c];
+    if (!originalPiece || originalPiece.type !== 'スターゲイザー') return;
+
+    const actor = originalPiece.player;
+    let nextBoard = board.map((row) => [...row]);
+    
+    const sweptTiles: Position[] = [];
+    
+    // Sente: rows < pos.r (moving up, so indices from 0 up to pos.r-1)
+    // Gote: rows > pos.r (moving down, so indices from pos.r+1 up to 8)
+    if (actor === '先手') {
+      for (let row = 0; row < pos.r; row++) {
+        sweptTiles.push({ r: row, c: pos.c });
+      }
+    } else {
+      for (let row = pos.r + 1; row < 9; row++) {
+        sweptTiles.push({ r: row, c: pos.c });
+      }
+    }
+
+    if (sweptTiles.length === 0) {
+      setGlitchMessage(`SYSTEM: スターゲイザーの前方に一掃可能な空間が存在しません。`);
+      setTimeout(() => setGlitchMessage(null), 3000);
+      return;
+    }
+
+    // Erase pieces in target tiles
+    sweptTiles.forEach((tile) => {
+      nextBoard[tile.r][tile.c] = null;
+    });
+
+    // Sound FX & Flashes
+    setHackedFlashTiles(sweptTiles);
+    playKingHackSound(); // Play epic hack sound
+    playCheckAlarmSound(); // Overlay with warning sound
+
+    setGlitchMessage(`SYSTEM PURGE: ${actor === '先手' ? '先手' : '後手'}の【スターゲイザー】レーザー照射！ 前方縦一列のすべての駒が消滅しました！`);
+
+    setTimeout(() => {
+      setHackedFlashTiles([]);
+      setGlitchMessage(null);
+    }, 4500);
+
+    const nextTurn: PlayerColor = actor === '先手' ? '後手' : '先手';
+
+    // Log Kifu
+    const loggedMove: KifuMove = {
+      from: pos,
+      to: pos,
+      pieceType: 'スターゲイザー',
+      wasPromoted: false,
+      player: actor,
+      moveNumber: movesLog.length + 1,
+      japaneseNotation: `${actor === '先手' ? '▲' : '△'}天星一掃 (縦列ビーム)`,
+    };
+
+    const nextMoves = [...movesLog, loggedMove];
+
+    // Evaluate win condition (missing King check)
+    let currentInCheck: PlayerColor | null = null;
+    let nextWinner: PlayerColor | null = null;
+
+    const senteKingPos = findKing('先手', nextBoard);
+    const goteKingPos = findKing('後手', nextBoard);
+
+    if (!senteKingPos && !goteKingPos) {
+      nextWinner = actor;
+    } else if (!senteKingPos) {
+      nextWinner = '後手';
+    } else if (!goteKingPos) {
+      nextWinner = '先手';
+    } else {
+      if (isKingInCheck(nextTurn, nextBoard)) {
+        currentInCheck = nextTurn;
+        playCheckAlarmSound();
+      }
+      const opponentHand = nextTurn === '先手' ? senteHand : goteHand;
+      if (!hasAnyLegalMoves(nextTurn, nextBoard, opponentHand)) {
+        nextWinner = actor;
+      }
+    }
+
+    setBoard(nextBoard);
+    setActivePlayer(nextTurn);
+    setMovesLog(nextMoves);
+    setKingInCheck(currentInCheck);
+    if (nextWinner) setWinner(nextWinner);
+
+    // Sync online
+    if (gameMode === 'online') {
+      syncMatchToFirestore(
+        nextBoard,
+        senteHand,
+        goteHand,
+        senteCharge,
+        goteCharge,
+        nextTurn,
+        nextMoves,
+        nextWinner,
+        { from: pos, to: pos }
       );
     }
 
@@ -1051,10 +1359,10 @@ export default function App() {
                   <div className="text-white/85 space-y-3 leading-relaxed max-w-md text-xs md:text-sm bg-white/[0.02] border border-white/5 p-5 rounded-2xl shadow-inner mt-1">
                     <p className="font-extrabold flex items-center justify-center gap-2 text-white/90 text-sm tracking-wider">
                       <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-                      <span>【全権掌握（システム・ジャック）】システム概要</span>
+                      <span>【全権掌握（コード・ハック）】システム概要</span>
                     </p>
                     <p className="text-white/60 text-xs text-left leading-relaxed">
-                      対局相手の駒を捕獲すると、チャージエネルギーが<span className="text-[#FF4500]/90 font-black px-1 border-b border-[#FF4500]/30">20%蓄積</span>されます。100%チャージ完了時に、玉将(王将)が持つ究極奥義【全権掌握（システム・ジャック）】の使用が許可されます。
+                      対局相手の駒を捕獲すると、チャージエネルギーが<span className="text-[#FF4500]/90 font-black px-1 border-b border-[#FF4500]/30">20%蓄積</span>されます。100%チャージ完了時に、玉将(王将)が持つ究極奥義【全権掌握（コード・ハック）】の使用が許可されます。
                     </p>
                     <p className="text-white/60 text-xs text-left leading-relaxed">
                       発動時、王の周囲2マスの範囲に存在する<span className="text-[#D4AF37] font-semibold">すべての敵駒を一瞬で洗脳</span>し、自軍の持ち駒として再構成する支配的超次元将棋ルール。
@@ -1200,7 +1508,7 @@ export default function App() {
                 <div className="flex flex-col items-center justify-center gap-4 flex-1">
                   
                   {kingInCheck && !winner && (
-                    <div className="w-full max-w-[450px] p-2 bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 animate-bounce">
+                    <div className="w-full max-w-[560px] p-2 bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 animate-bounce">
                       <ShieldAlert className="w-4 h-4 animate-pulse" />
                       <span>警告: {kingInCheck}の玉（王）に「王手」がかかっています！</span>
                     </div>
@@ -1219,6 +1527,81 @@ export default function App() {
                     goteCharge={goteCharge}
                     kingInCheck={kingInCheck}
                   />
+
+                  {/* Selected Piece Actions Panel (Stargazer transformation and Sweep) */}
+                  {selectedPos && (() => {
+                    const selectedPiece = board[selectedPos.r][selectedPos.c];
+                    if (!selectedPiece || selectedPiece.player !== activePlayer || winner) return null;
+
+                    const isOnlineTurn = gameMode === 'online' ? activePlayer === onlineRole : true;
+                    const isCpuTurn = gameMode === 'vs_ai' && activePlayer === '後手';
+                    const canControl = isOnlineTurn && !isCpuTurn;
+
+                    const activeCharge = activePlayer === '先手' ? senteCharge : goteCharge;
+                    const isRookOrDragon = selectedPiece.type === '飛' || selectedPiece.type === '竜';
+                    const isStargazer = selectedPiece.type === 'スターゲイザー';
+
+                    if (!isRookOrDragon && !isStargazer) return null;
+
+                    return (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full max-w-[560px] p-4 rounded-2xl border border-cyan-500/30 bg-[#121E24]/90 backdrop-blur shadow-[0_0_20px_rgba(6,182,212,0.15)] flex flex-col gap-3 text-center"
+                      >
+                        <div className="flex items-center justify-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                          <span className="font-mono text-xs font-bold text-cyan-400 tracking-widest uppercase">
+                            SYSTEM LINK: {selectedPiece.type} 制御ユニット
+                          </span>
+                        </div>
+
+                        {isRookOrDragon && (
+                          <div className="flex flex-col gap-2">
+                            <span className="text-[11px] text-white/70 leading-normal">
+                              ハックエナジーが100%のとき、この駒を究極変身させ、
+                              縦一列すべての駒を一掃（消滅）できる【スターゲイザー】に改造できます。
+                            </span>
+                            <button
+                              disabled={activeCharge < 100 || !canControl}
+                              onClick={() => transformRookToStargazer(selectedPos)}
+                              className={`
+                                py-2 px-4 rounded-xl font-mono text-xs font-black uppercase tracking-widest transition-all duration-300 border
+                                ${activeCharge >= 100 && canControl
+                                  ? 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
+                                  : 'bg-white/5 text-white/20 border-white/10 cursor-not-allowed'
+                                }
+                              `}
+                            >
+                              🔮 スターゲイザーに変身 (消費100%)
+                            </button>
+                          </div>
+                        )}
+
+                        {isStargazer && (
+                          <div className="flex flex-col gap-2">
+                            <span className="text-[11px] text-white/70 leading-normal">
+                              通常移動のほか、前方縦1列（盤面の端まで）にあるすべての駒を
+                              敵味方問わず瞬時に一掃・消滅させます。（敵王将を巻き込めば勝利！）
+                            </span>
+                            <button
+                              disabled={!canControl}
+                              onClick={() => executeStargazerSweep(selectedPos)}
+                              className={`
+                                py-2.5 px-4 rounded-xl font-mono text-xs font-black uppercase tracking-widest transition-all duration-300 border
+                                ${canControl
+                                  ? 'bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white border-rose-400 shadow-[0_0_15px_rgba(239,68,68,0.4)] cursor-pointer hover:scale-[1.02] active:scale-[0.98]'
+                                  : 'bg-white/5 text-white/20 border-white/10 cursor-not-allowed'
+                                }
+                              `}
+                            >
+                              🌠 前方縦一列を一掃 (COLUMN SWEEP)
+                            </button>
+                          </div>
+                        )}
+                      </motion.div>
+                    );
+                  })()}
 
                   {/* Active turn label */}
                   <div className="flex items-center gap-3 bg-white/[0.01] p-3 px-6 rounded-2xl border border-white/5 font-mono shadow-inner">
@@ -1312,7 +1695,7 @@ export default function App() {
               <div className="bg-white/[0.02] p-4 rounded-xl border border-dashed border-white/10">
                 <h3 className="font-bold text-white mb-1.5 flex items-center gap-1.5 font-sans">
                   <Zap className="w-4 h-4 text-[#FF4500]" />
-                  超必殺技「全権掌握（システム・ジャック）」のルール
+                  超必殺技「全権掌握（コード・ハック）」のルール
                 </h3>
                 <p>
                   この将棋における最大の特徴は、対局中に発動可能な超必殺技です。
@@ -1322,7 +1705,7 @@ export default function App() {
                     <strong>パワーチャージ：</strong>相手の駒を取るごとに、自分のハックゲージが<strong>+20%</strong>チャージされます（計5枚獲得が必要）。
                   </li>
                   <li>
-                    <strong>必殺ハック発動：</strong>ゲージが100%になり自分の手番の際、「全権掌握（システム・ジャック）」ボタンをいつでも起動できます。
+                    <strong>必殺ハック発動：</strong>ゲージが100%になり自分の手番の際、「全権掌握（コード・ハック）」ボタンをいつでも起動できます。
                   </li>
                   <li>
                     <strong>効果：</strong>自軍の玉将（王将）から２マス周囲（縦・横・斜め2マス先の5x5マスエリア）にいるすべての敵の駒を洗脳し、自分の駒（自軍の勢力）に強制書き換えできます。

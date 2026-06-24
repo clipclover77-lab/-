@@ -18,7 +18,8 @@ export type PieceType =
   | '成桂' // Promoted Knight
   | '成銀' // Promoted Silver
   | '馬' // Promoted Bishop (Horse)
-  | '竜'; // Promoted Rook (Dragon)
+  | '竜' // Promoted Rook (Dragon)
+  | 'スターゲイザー'; // Stargazer
 
 export interface Piece {
   id: string; // Unique ID for Framer Motion key rendering
@@ -70,6 +71,7 @@ export const DEMOTION_MAP: Record<PieceType, PieceType> = {
   '成銀': '銀',
   '馬': '角',
   '竜': '飛',
+  'スターゲイザー': '飛',
 };
 
 // Check if a piece can be promoted
@@ -267,6 +269,7 @@ export function getValidMoves(r: number, c: number, board: BoardState): Position
       break;
 
     case '竜':
+    case 'スターゲイザー':
       // Rook rays + King 1-step diagonals
       addRay(0, -1);
       addRay(0, 1);
